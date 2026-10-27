@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VS Code Android</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #1e1e1e; color: #d4d4d4; font-family: sans-serif; }
+        #toolbar { height: 42px; background: #2d2d2d; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-bottom: 1px solid #333; }
+        .title { font-size: 14px; font-weight: bold; color: #bbbbbb; }
+        button { background: #0e639c; color: white; border: none; padding: 6px 14px; cursor: pointer; border-radius: 3px; font-size: 13px; }
+        button:hover { background: #1177bb; }
+        #editor-container { width: 100%; height: calc(100% - 42px); }
+    </style>
+</head>
+<body>
+    <div id="toolbar">
+        <span class="title">VS Code Mobile</span>
+        <button onclick="openMarketplace()">🧩 Плагины / Marketplace</button>
+    </div>
+    <div id="editor-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min' }});
+        require(['vs/editor/editor.main'], function() {
+            window.editor = monaco.editor.create(document.getElementById('editor-container'), {
+                value: "// Добро пожаловать в VS Code для Android\nconsole.log('Hello, World!');",
+                language: 'javascript',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                fontSize: 14
+            });
+        });
+
+        function openMarketplace() {
+            if (window.AndroidBridge) {
+                window.AndroidBridge.openMarketplace();
+            } else {
+                alert("Мост с Android не обнаружен.");
+            }
+        }
+    </script>
+</body>
+</html>
